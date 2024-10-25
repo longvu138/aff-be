@@ -100,14 +100,14 @@ const deleteProducts = async (req, res) => {
         return res.status(400).json({ message: 'Missing id' })
     }
     try {
-        const deleted = await Products.destroy({
-            where: { id: req.params.id },
-        })
-        if (deleted) {
-            res.status(204).send()
-        } else {
-            res.status(404).json({ error: 'Product not found' })
-        }
+        // const deleted = await Products.destroy({
+        //     where: { id: req.params.id },
+        // })
+        // if (deleted) {
+        //     res.status(204).send()
+        // } else {
+        //     res.status(404).json({ error: 'Product not found' })
+        // }
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
