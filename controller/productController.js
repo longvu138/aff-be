@@ -3,8 +3,6 @@ import { paginateAndFilter } from '../util/paginateAndFilter.js'
 import { sendErrorResponse, sendSuccessResponse } from '../util/response.js'
 import * as XLSX from 'xlsx/xlsx.mjs'
 const getAllProducts = async (req, res) => {
-    console.log("vàoaday");
-    
     try {
         const { page = 1, size = 10, sort, name } = req.query
 
@@ -26,14 +24,15 @@ const getAllProducts = async (req, res) => {
 }
 
 const getProductsById = async (req, res) => {
-    const idUser = req.params.id
+    const idProducts = req.params.id
     try {
-        if (!idUser) {
-            return sendErrorResponse(res, 400, 'id user isRequired')
+        if (!idProducts) {
+            return sendErrorResponse(res, 400, 'id products isRequired')
         }
-        const user = await Products.findByPk(idUser, {
-            attributes: ['username', 'email', 'role', 'enabled'],
-        })
+        const user = await Products.findByPk(
+            idProducts,
+            //  {attributes: ['username', 'email', 'role', 'enabled'],}
+        )
         if (user) {
             const data = { ...user?.dataValues }
             return sendSuccessResponse(res, 200, data, '')
@@ -67,15 +66,28 @@ const createProducts = async (req, res) => {
 }
 
 const updateProducts = async (req, res) => {
+    const { name, url, price, image } = req.body
     try {
+        const products = req.params.id
+        if (!products) {
+            return res.status(400).json({ message: 'Missing id' })
+        }
+        if (!name || !url || !price || !image) {
+            return res.status(400).json({ message: 'Missing name, url, price or image' })
+        }
+
+        const productExisting = await Products.findByPk(products)
+        if (!productExisting) {
+            return res.status(404).json({ message: 'Product not found' })
+        }
         const [updated] = await Products.update(req.body, {
             where: { id: req.params.id },
         })
         if (updated) {
-            const updatedUser = await Products.findByPk(req.params.id)
-            res.status(200).json(updatedUser)
+            const updatedProduct = await Products.findByPk(req.params.id)
+            res.status(200).json(updatedProduct)
         } else {
-            res.status(404).json({ error: 'User not found' })
+            res.status(404).json({ error: 'product update failed' })
         }
     } catch (error) {
         res.status(500).json({ error: error.message })
@@ -83,6 +95,10 @@ const updateProducts = async (req, res) => {
 }
 
 const deleteProducts = async (req, res) => {
+    const products = req.params.id
+    if (!products) {
+        return res.status(400).json({ message: 'Missing id' })
+    }
     try {
         const deleted = await Products.destroy({
             where: { id: req.params.id },
@@ -90,7 +106,7 @@ const deleteProducts = async (req, res) => {
         if (deleted) {
             res.status(204).send()
         } else {
-            res.status(404).json({ error: 'User not found' })
+            res.status(404).json({ error: 'Product not found' })
         }
     } catch (error) {
         res.status(500).json({ error: error.message })
