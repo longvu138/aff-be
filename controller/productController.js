@@ -4,9 +4,12 @@ import { sendErrorResponse, sendSuccessResponse } from '../util/response.js'
 import * as XLSX from 'xlsx/xlsx.mjs'
 const getAllProducts = async (req, res) => {
     try {
-        const { page = 1, size = 10, sort, name } = req.query
+        const { page = 1, size = 20, sort, name, categoryCode } = req.query
 
-        const filterConditions = [['name', name]]
+        const filterConditions = [
+            ['name', name],
+            ['categoryCode', categoryCode],
+        ]
 
         const sortConditions = sort ? sort.split(',').map(condition => condition.split(':')) : [['createdAt', 'DESC']]
 
@@ -140,8 +143,8 @@ const createProductsByExcel = async (req, res) => {
                 rowErrors.push(`Missing 'name' at row ${rowNumber}`)
             }
 
-            if (!row['url']) {
-                rowErrors.push(`Missing 'url' at row ${rowNumber}`)
+            if (!row['urlSort']) {
+                rowErrors.push(`Missing 'urlSort' at row ${rowNumber}`)
             }
 
             if (!row['image']) {
@@ -157,7 +160,7 @@ const createProductsByExcel = async (req, res) => {
             } else {
                 // Nếu không có lỗi, thêm vào mảng products
                 products.push({
-                    categories: row['categories'],
+                    categoryCode: row['categoryCode'],
                     name: row['name'],
                     url: row['url'],
                     image: row['image'],

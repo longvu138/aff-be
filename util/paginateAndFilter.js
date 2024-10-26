@@ -18,9 +18,6 @@ export const paginateAndFilter = async (model, options) => {
         return acc
     }, {})
 
-    console.log("whereConditions", whereConditions);
-    
-
     // Tạo truy vấn
     const query = {
         where: whereConditions,

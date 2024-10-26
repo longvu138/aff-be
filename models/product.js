@@ -1,19 +1,15 @@
-// models/user.js
+// models/product.js
 import { DataTypes } from 'sequelize'
 import sequelize from '../config/database.js'
-import { v4 as uuidv4 } from 'uuid'
+import Category from './categories.js'
 
-const Products = sequelize.define(
+const Product = sequelize.define(
     'Product',
     {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
-            defaultValue: () => uuidv4(),
-        },
-        categories: {
-            type: DataTypes.TEXT,
-            allowNull: true,
+            defaultValue: DataTypes.UUIDV4,
         },
         name: {
             type: DataTypes.STRING,
@@ -31,13 +27,15 @@ const Products = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        urlSort: {
+        categoryCode: {
             type: DataTypes.STRING,
-            allowNull: false,
-        },
-        urlLong: {
-            type: DataTypes.TEXT,
-            allowNull: false,
+            allowNull: true,
+            references: {
+                model: Category,
+                key: 'code',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL',
         },
     },
     {
@@ -45,4 +43,7 @@ const Products = sequelize.define(
     },
 )
 
-export default Products
+// Thiết lập quan hệ giữa Product và Category
+Product.belongsTo(Category, { foreignKey: 'categoryCode', targetKey: 'code', as: 'category' })
+
+export default Product
