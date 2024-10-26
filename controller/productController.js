@@ -40,7 +40,7 @@ const getProductsById = async (req, res) => {
             const data = { ...user?.dataValues }
             return sendSuccessResponse(res, 200, data, '')
         } else {
-            res.status(404).json({ error: 'User not found' })
+            res.status(404).json({ error: 'Products not found' })
         }
     } catch (error) {
         res.status(500).json({ error: error.message })
@@ -52,7 +52,7 @@ const createProducts = async (req, res) => {
     try {
         const existingUser = await Products.findOne({ where: { email } })
         if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' })
+            return res.status(400).json({ message: 'Product already exists' })
         }
 
         // const hashedPassword = await bcrypt.hash(password, 10)

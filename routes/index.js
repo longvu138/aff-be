@@ -4,8 +4,8 @@ import categoryRoutes from './categoryRoutes.js'
 
 const initRouter = app => {
     // app.use("/api", authRoutes);
-    app.use('/api/products', productsRoutes)
-    app.use('/api/categoy', categoryRoutes)
+    app.use(`${APP_CONFIG.ENV}/api/products`, productsRoutes)
+    app.use(`${APP_CONFIG.ENV}/api/category`, categoryRoutes)
     // app.get('/redirect', (req, res) => {
     //     const url = req.params.url
     //     res.redirect(url)

@@ -15,4 +15,5 @@ export const APP_CONFIG = {
     JWT_SECRET: process.env.JWT_SECRET,
     PORT: process.env.PORT || 5001,
     CORS: process.env.CORS || '*',
+    ENV: process.env.PROD || '',
 }

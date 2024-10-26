@@ -21,7 +21,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.get('/', (req, res) => {
+app.get(`${APP_CONFIG.ENV}/`, (req, res) => {
     res.json({ message: 'hello', status: 200 })
 })
 
