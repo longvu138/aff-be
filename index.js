@@ -24,7 +24,7 @@ app.use(bodyParser.json())
 app.get(`${APP_CONFIG.ENV}/`, (req, res) => {
     res.json({ message: 'hello', status: 200 })
 })
-
+app.disable('etag');
 initRouter(app)
 
 sequelize
