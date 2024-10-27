@@ -4,7 +4,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import initRouter from './routes/index.js'
 import sequelize from './config/database.js'
-import { APP_CONFIG } from './util/config.js'
+import { APP_CONFIG, DB_CONFIG } from './util/config.js'
 
 dotenv.config()
 const app = express()

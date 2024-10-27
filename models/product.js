@@ -19,6 +19,14 @@ const Product = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        urlSort: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        urlLong: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         image: {
             type: DataTypes.STRING,
             allowNull: false,

@@ -7,7 +7,7 @@ export const DB_CONFIG = {
     DB_NAME: process.env.DB_NAME,
     DB_HOST: process.env.DB_HOST,
     DB_DIALECT: 'mysql', // hoặc 'postgres', 'sqlite', v.v.
-    DB_LOGGING: true,
+    DB_LOGGING: !!process.env.DB_LOGGING || false,
     DB_TIMEZONE: '+07:00',
 }
 
